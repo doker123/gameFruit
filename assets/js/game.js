@@ -30,6 +30,37 @@ class Drawable {
         `;
     }
 }
+class Fruit extends Drawable {
+    constructor(game) {
+        super(game);
+        this.h = 70;
+        this.w = 70;
+        this.y = 60;
+        this.x = random(0, window.innerWidth - this.w);
+        this.offsets.y = 3;
+        this.createElement();
+    }
+}
+
+class Banana extends Fruit {
+    constructor(game) {
+        super(game);
+    }
+}
+
+class Apple extends Fruit {
+    constructor(game) {
+        super(game);
+        this.offsets.y = 5;
+    }
+}
+
+class Orange extends Fruit {
+    constructor(game) {
+        super(game);
+        this.offsets.y = 7;
+    }
+}
 
 class Player extends Drawable {
     constructor(game) {
@@ -66,6 +97,8 @@ class Game {
         this.name = name;
         this.elements = [];
         this.player = this.generate(Player);
+        this.counterForTimer = 0;
+        this.fruits = [Apple,Banana,Orange];
     }
 
     start () {
@@ -80,10 +113,19 @@ class Game {
 
     loop() {
         requestAnimationFrame(() => {
+            this.counterForTimer++;
+            if(this.counterForTimer % 60 === 0){
+                this.randomFruitGenerate();
+
+            }
             this.updateElements();
             this.setParams();
             this.loop();
         });
+    }
+
+    randomFruitGenerate() {
+        this.generate(this.fruits[random(0, 2)])
     }
 
     updateElements() {

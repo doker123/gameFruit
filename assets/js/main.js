@@ -1,19 +1,21 @@
-let name='';
-let game={};
-let panel='start';
-let $ = function(domElement) {
+let name = '';
+let game = {};
+let panel = 'start';
+let $ = function (domElement) {
     return document.querySelector(domElement);
 }
 
 let nav = () => {
     document.onclick = (e) => {
         e.preventDefault();
-        switch(e.target.id){
+        switch (e.target.id) {
             case 'startGame':
-                go('game', 'd-eflex');
+                go('game', 'd-flex');
                 break;
             case 'restart':
-                go('game', 'd-eflex');
+                go('game', 'd-flex');
+                for(let child of $('.elements').querySelectorAll('.element'))
+                    child.remove();
                 break;
         }
     }
@@ -22,7 +24,7 @@ let nav = () => {
 let go = (page, attribute) => {
     let pages = ['start', 'game', 'end'];
     panel = page;
-    $(`#${ page }`).setAttribute('class', attribute);
+    $(`#${page}`).setAttribute('class', attribute);
     pages.forEach(el => {
         if(el !== page) $(`#${el}`).setAttribute('class', 'd-none');
     })
@@ -37,7 +39,7 @@ let checkName = () => {
     if(name !== '') {
         localStorage.setItem('userName', name);
         $('#startGame').removeAttribute('disabled');
-    } else{
+    } else {
         $('#startGame').setAttribute('disabled', '');
     }
 }
@@ -61,7 +63,8 @@ window.onload = () => {
         }
     }, 500)
 }
-let random = (min,max) => {
+
+let random = (min, max) => {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
